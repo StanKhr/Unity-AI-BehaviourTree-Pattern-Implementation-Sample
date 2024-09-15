@@ -299,7 +299,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   rotationLerpTime: 0.01
-  invertY: 0
+  invertY: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _oreNodeCarrier: {fileID: 1209865219}
+  _characterController: {fileID: 1209865216}
 --- !u!114 &1209865219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,10 +661,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carrierTransform: {fileID: 1209865217}
+  _carryOreParent: {fileID: 0}
   _oreNodeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
-  _searchRadius: 0
+    m_Bits: 128
+  _searchRadius: 20
+  _pickUpDistance: 2
 --- !u!1 &1336546002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,11 +1236,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2483934435941797933, guid: 7cad09fa3567ec8459acd1d6afbe09df,
-        type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 5251265813259935764, guid: 7cad09fa3567ec8459acd1d6afbe09df,
         type: 3}
       propertyPath: m_LocalPosition.x

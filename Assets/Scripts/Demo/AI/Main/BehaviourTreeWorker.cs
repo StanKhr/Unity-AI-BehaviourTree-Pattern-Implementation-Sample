@@ -6,7 +6,7 @@ using Demo.AI.Conditions;
 using Demo.AI.Tasks;
 using UnityEngine;
 
-namespace Demo.AI
+namespace Demo.AI.Main
 {
     public class BehaviourTreeWorker : BehaviourTree
     {
@@ -30,9 +30,13 @@ namespace Demo.AI
             return new NodeSelector(new INode[]
             {
                 new NodeBranch(
-                    new ConditionFindAnyOreNode(_oreNodeCarrier),
-                    new TaskPickUpOreNode(_oreNodeCarrier, _characterController),
-                    new TaskIdle())
+                    new ConditionOreNodeFound(_oreNodeCarrier),
+                    new NodeBranch(
+                        new ConditionOreNodeReached(_oreNodeCarrier),
+                        new TaskIdle(),
+                        new TaskFollowOreNode(_oreNodeCarrier, _characterController)
+                        ),
+                new TaskSearchForOreNode(_oreNodeCarrier))
             });
         }
 

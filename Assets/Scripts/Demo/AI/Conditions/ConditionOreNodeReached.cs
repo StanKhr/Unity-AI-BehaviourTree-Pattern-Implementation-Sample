@@ -1,15 +1,14 @@
 ﻿using Core.BehaviourTree.Enums;
 using Core.BehaviourTree.Nodes;
 using Demo.AI.Components;
-using UnityEngine;
 
 namespace Demo.AI.Conditions
 {
-    public class ConditionFindAnyOreNode : Node
+    public class ConditionOreNodeReached : Node
     {
         #region Constructors
 
-        public ConditionFindAnyOreNode(OreNodeCarrier oreNodeCarrier)
+        public ConditionOreNodeReached(OreNodeCarrier oreNodeCarrier)
         {
             _oreNodeCarrier = oreNodeCarrier;
         }
@@ -21,17 +20,12 @@ namespace Demo.AI.Conditions
         private readonly OreNodeCarrier _oreNodeCarrier;
 
         #endregion
-        
+
         #region Methods
 
         public override NodeStateType Evaluate(float deltaTime)
         {
-            if (_oreNodeCarrier.SearchForNode())
-            {
-                return NodeStateType.Success;
-            }
-
-            return NodeStateType.Failure;
+            return _oreNodeCarrier.CanPickUpOreNode() ? NodeStateType.Success : NodeStateType.Failure;
         }
 
         #endregion
