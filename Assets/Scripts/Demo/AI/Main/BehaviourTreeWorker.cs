@@ -31,9 +31,8 @@ namespace Demo.AI.Main
             {
                 new NodeBranch(
                     new ConditionOreNodeFound(_oreNodeCarrier),
-                    new NodeBranch(
-                        new ConditionOreNodeReached(_oreNodeCarrier),
-                        new TaskIdle(),
+                    new NodeBranchSuccessOnly(
+                        new NodeNegation(new ConditionOreNodeReached(_oreNodeCarrier)),
                         new TaskFollowOreNode(_oreNodeCarrier, _characterController)
                         ),
                 new TaskSearchForOreNode(_oreNodeCarrier))
