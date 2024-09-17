@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.BehaviourTree.Enums;
 using Demo.Props;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Demo.AI.Components
         #region Editor Fields
 
         [SerializeField] private Transform _carrierTransform;
-        [SerializeField] private Transform _carryOreParent;
+        [SerializeField] private Transform _oreCarryParentAnchor;
         
         [Header("Settings")]
         [SerializeField] private LayerMask _oreNodeLayerMask;
@@ -23,12 +24,33 @@ namespace Demo.AI.Components
 
         private readonly Collider[] _searchResult = new Collider[10];
 
+        private OreNode _pickedOreNode;
+
         #endregion
         
         #region Properties
 
         private Vector3 Position => _carrierTransform.position;
         public OreNode FoundOreNode { get; private set; }
+        public OreNode PickedOreNode
+        {
+            get => _pickedOreNode;
+            private set
+            {
+                if (_pickedOreNode)
+                {
+                    _pickedOreNode.StopCarrying(this);
+                }
+
+                _pickedOreNode = value;
+
+                if (_pickedOreNode)
+                {
+                    _pickedOreNode.Carry(this);
+                }
+            }
+        }
+        public Transform OreCarryParentAnchor => _oreCarryParentAnchor;
 
         #endregion
 
@@ -44,9 +66,26 @@ namespace Demo.AI.Components
 
         #region Methods
 
-        public void PickUpOreNode(OreNode oreNode)
+        public bool TryPickUpOreNode(OreNode oreNode)
         {
-            
+            if (!CanPickUpOreNode())
+            {
+                return false;
+            }
+
+            PickedOreNode = oreNode;
+
+            return PickedOreNode;
+        }
+
+        public void DropPickedNode()
+        {
+            if (!PickedOreNode)
+            {
+                return;
+            }
+
+            PickedOreNode = null;
         }
 
         public bool CanPickUpOreNode()
@@ -59,7 +98,7 @@ namespace Demo.AI.Components
             return Vector3.Distance(FoundOreNode.Position, Position) <= _pickUpDistance;
         }
 
-        public bool SearchForNode()
+        public bool SearchForNode(List<OreNode> excludedOreNodes = null)
         {
             FoundOreNode = null;
             Array.Clear(_searchResult, 0, _searchResult.Length);
@@ -82,6 +121,17 @@ namespace Demo.AI.Components
                     continue;
                 }
 
+                if (excludedOreNodes == null)
+                {
+                    FoundOreNode = oreNode;
+                    break;
+                }
+
+                if (excludedOreNodes.Contains(oreNode))
+                {
+                    continue;
+                }
+                
                 FoundOreNode = oreNode;
                 break;
             }

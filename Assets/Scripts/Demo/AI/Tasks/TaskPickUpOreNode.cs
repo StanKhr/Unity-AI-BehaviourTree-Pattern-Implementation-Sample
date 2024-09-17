@@ -2,30 +2,32 @@
 using Core.BehaviourTree.Nodes;
 using Demo.AI.Components;
 
-namespace Demo.AI.Conditions
+namespace Demo.AI.Tasks
 {
-    public class ConditionOreNodeFound : Node
+    public class TaskPickUpOreNode : Node
     {
-
         #region Constructors
 
-        public ConditionOreNodeFound(OreNodeCarrier oreNodeCarrier)
+        public TaskPickUpOreNode(OreNodeCarrier oreNodeCarrier)
         {
             OreNodeCarrier = oreNodeCarrier;
         }
 
         #endregion
 
-        #region Fields
-        
+        #region Properties
+
         private OreNodeCarrier OreNodeCarrier { get; }
+
         #endregion
 
         #region Methods
 
         public override NodeStateType Evaluate(float deltaTime)
         {
-            return OreNodeCarrier.FoundOreNode ? NodeStateType.Success : NodeStateType.Failure;
+            return OreNodeCarrier.TryPickUpOreNode(OreNodeCarrier.FoundOreNode)
+                ? NodeStateType.Success
+                : NodeStateType.Failure;
         }
 
         #endregion

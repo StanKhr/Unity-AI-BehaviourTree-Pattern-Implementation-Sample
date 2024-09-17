@@ -13,29 +13,41 @@ namespace Demo.AI.Main
         #region Editor Fields
 
         [SerializeField] private OreNodeCarrier _oreNodeCarrier;
-        [SerializeField] private CharacterController _characterController;
+        [SerializeField] private Locomotion _locomotion;
+        [SerializeField] private OreNodesStash _oreNodesStash;
 
         #endregion
 
         #region Fields
 
-        
-
         #endregion
-        
+
         #region Methods
 
         protected override INode BuildRootNode()
         {
             return new NodeSelector(new INode[]
             {
-                new NodeBranch(
+                new NodeBranchSuccessOnly
+                (
+                    new ConditionCarryingOreNode(_oreNodeCarrier),
+                    new NodeBranchSuccessOnly
+                    (
+                        new NodeNegation(new ConditionOreNodeCollected(_oreNodeCarrier, _oreNodesStash)),
+                        new TaskReturnToStash(_locomotion, _oreNodesStash)
+                    )
+                ),
+                new NodeBranch
+                (
                     new ConditionOreNodeFound(_oreNodeCarrier),
-                    new NodeBranchSuccessOnly(
+                    new NodeBranch
+                    (
                         new NodeNegation(new ConditionOreNodeReached(_oreNodeCarrier)),
-                        new TaskFollowOreNode(_oreNodeCarrier, _characterController)
-                        ),
-                new TaskSearchForOreNode(_oreNodeCarrier))
+                        new TaskReachFoundOreNode(_oreNodeCarrier, _locomotion),
+                        new TaskPickUpOreNode(_oreNodeCarrier)
+                    ),
+                    new TaskSearchForOreNode(_oreNodeCarrier, _oreNodesStash)
+                )
             });
         }
 
