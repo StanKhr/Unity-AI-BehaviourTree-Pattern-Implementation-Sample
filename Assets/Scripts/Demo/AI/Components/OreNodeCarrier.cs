@@ -42,6 +42,11 @@ namespace Demo.AI.Components
                     _pickedOreNode.StopCarrying(this);
                 }
 
+                if (FoundOreNode == value)
+                {
+                    FoundOreNode = null;
+                }
+                
                 _pickedOreNode = value;
 
                 if (_pickedOreNode)

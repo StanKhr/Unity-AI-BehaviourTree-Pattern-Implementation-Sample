@@ -11,16 +11,10 @@ namespace Demo.AI.Components
         [SerializeField] private float _collectOreNodeDistance = 2f;
 
         #endregion
-        
-        #region Fields
-
-        private readonly List<OreNode> _collectedOreNodes = new();
-
-        #endregion
 
         #region Properties
         
-        public List<OreNode> CollectedNodes => _collectedOreNodes;
+        public List<OreNode> CollectedNodes { get; } = new();
 
         #endregion
         
@@ -38,8 +32,13 @@ namespace Demo.AI.Components
             {
                 return false;
             }
+
+            if (CollectedNodes.Contains(pickedOreNode))
+            {
+                return false;
+            }
             
-            _collectedOreNodes.Add(pickedOreNode);
+            CollectedNodes.Add(pickedOreNode);
 
             return true;
         }
