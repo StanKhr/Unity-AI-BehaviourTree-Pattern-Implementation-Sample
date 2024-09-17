@@ -1,9 +1,8 @@
 ﻿using Core.BehaviourTree.Enums;
-using Core.BehaviourTree.Nodes;
 
-namespace Demo.AI.Tasks
+namespace Core.BehaviourTree.Nodes
 {
-    public class TaskIdle : Node
+    public class NodeIdle : Node
     {
         #region Methods
 

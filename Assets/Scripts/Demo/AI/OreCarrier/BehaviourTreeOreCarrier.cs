@@ -2,23 +2,17 @@ using Core.BehaviourTree.Interfaces;
 using Core.BehaviourTree.Nodes;
 using Core.BehaviourTree.Trees;
 using Demo.AI.Components;
-using Demo.AI.Conditions;
-using Demo.AI.Tasks;
 using UnityEngine;
 
-namespace Demo.AI.Main
+namespace Demo.AI.OreCarrier
 {
-    public class BehaviourTreeWorker : BehaviourTree
+    public class BehaviourTreeOreCarrier : BehaviourTree
     {
         #region Editor Fields
 
         [SerializeField] private OreNodeCarrier _oreNodeCarrier;
         [SerializeField] private Locomotion _locomotion;
         [SerializeField] private OreNodesStash _oreNodesStash;
-
-        #endregion
-
-        #region Fields
 
         #endregion
 
@@ -30,23 +24,23 @@ namespace Demo.AI.Main
             {
                 new NodeBranchSuccessOnly
                 (
-                    new ConditionCarryingOreNode(_oreNodeCarrier),
+                    new OreCarrierConditions.IsCarryingOreNode(_oreNodeCarrier),
                     new NodeBranchSuccessOnly
                     (
-                        new NodeNegation(new ConditionOreNodeCollected(_oreNodeCarrier, _oreNodesStash)),
-                        new TaskReturnToStash(_locomotion, _oreNodesStash)
+                        new NodeNegation(new OreCarrierConditions.OreNodeCollected(_oreNodeCarrier, _oreNodesStash)),
+                        new OreCarrierTasks.ReturnToStash(_locomotion, _oreNodesStash)
                     )
                 ),
                 new NodeBranch
                 (
-                    new ConditionOreNodeFound(_oreNodeCarrier),
+                    new OreCarrierConditions.OreNodeFound(_oreNodeCarrier),
                     new NodeBranch
                     (
-                        new NodeNegation(new ConditionOreNodeReached(_oreNodeCarrier)),
-                        new TaskReachFoundOreNode(_oreNodeCarrier, _locomotion),
-                        new TaskPickUpOreNode(_oreNodeCarrier)
+                        new NodeNegation(new OreCarrierConditions.OreNodeReached(_oreNodeCarrier)),
+                        new OreCarrierTasks.ReachFoundOreNode(_oreNodeCarrier, _locomotion),
+                        new OreCarrierTasks.PickUpOreNode(_oreNodeCarrier)
                     ),
-                    new TaskSearchForOreNode(_oreNodeCarrier, _oreNodesStash)
+                    new OreCarrierTasks.SearchForOreNode(_oreNodeCarrier, _oreNodesStash)
                 )
             });
         }
