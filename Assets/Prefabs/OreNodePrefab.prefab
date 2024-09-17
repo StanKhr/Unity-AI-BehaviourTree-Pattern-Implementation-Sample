@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5251265813259935764}
   - component: {fileID: 6810503706219121303}
-  - component: {fileID: 978102649981563041}
+  - component: {fileID: 4776574894679412750}
   - component: {fileID: 2877325759960306316}
   m_Layer: 7
   m_Name: OreNodePrefab
@@ -126,9 +126,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6239456332209468228}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 100
+  m_Drag: 1.5
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -145,8 +145,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &978102649981563041
-SphereCollider:
+--- !u!65 &4776574894679412750
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -164,7 +164,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2877325759960306316
 MonoBehaviour:
